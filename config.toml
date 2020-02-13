@@ -3,4 +3,4 @@ languageCode = "en-us"
 title = "Nextstop dev"
 
 [params]
-  homeText = "Welcome to Nextstop!"
+  sitename = "Nextstop"

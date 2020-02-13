@@ -22,18 +22,7 @@
       {{ end }}
     </title>
     <link rel="canonical" href="{{ .Permalink }}">
-
-    {{ with .OutputFormats.Get "RSS" }}
-        {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
-    {{ end }}
   </head>
 
   <body>
-    <section id=nav>
       <h1><a href="/">{{ .Site.Params.sitename }}</a></h1>
-      <ul>
-        {{ range .Site.Menus.main }}
-          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-        {{ end }}
-      </ul>
-    </section>
