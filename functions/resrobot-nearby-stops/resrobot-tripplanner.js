@@ -10,10 +10,11 @@ class TripPlanner {
       return new Promise(
         (resolve, reject) => {
 
-          var radius = 3000
+          let radius = 10000
+          let maxNo = 10
           this.lat = lat;
           this.lon = lon;
-          this.nearbystops_url = this.nearbystops_base_url + `&originCoordLat=${this.lat}&originCoordLong=${this.lon}&r=${radius}`;
+          this.nearbystops_url = this.nearbystops_base_url + `&originCoordLat=${this.lat}&originCoordLong=${this.lon}&r=${radius}&maxNo=${maxNo}`;
 
           https.get(this.nearbystops_url, (resp) => {
             let data = '';

@@ -1,5 +1,13 @@
   <a href="https://www.netlify.com">
   <img src="https://www.netlify.com/img/global/badges/netlify-light.svg"/>
 </a>
+
+{{ "<!-- JS -->" | safeHTML }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+{{ range .Site.Params.javascript}}
+<script src="{{ .link | relURL }}"></script>
+{{ end }}
+
 </body>
 </html>

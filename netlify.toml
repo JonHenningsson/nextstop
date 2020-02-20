@@ -1,2 +1,10 @@
 [build]
   functions = "./functions"
+  publish = "public"
+  command = "hugo --gc --minify"
+
+[context.production.environment]
+  HUGO_VERSION = "0.62.2"
+
+[context.deploy-preview.environment]
+  HUGO_VERSION = "0.62.2"

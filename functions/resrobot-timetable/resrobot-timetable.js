@@ -2,7 +2,7 @@ const TimeTable2Departing = require('./resrobot-timetable2-departing');
 
 exports.handler = async (event, context) => {
   try {
-    const timetable = new TimeTable2Departing(process.env.timetable_api_key);
+    const timetable = new TimeTable2Departing(process.env.resrobot_timetable_api_key);
     let stopid = event.queryStringParameters.stopid || 740023844
 
     let timetable_result = await timetable.timetable(stopid);

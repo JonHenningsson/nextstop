@@ -1,6 +1,9 @@
-baseURL = "http://example.org/"
+baseURL = "https://nextstop.henningsson.tech/"
 languageCode = "en-us"
-title = "Nextstop dev"
+title = "Nextstop"
 
 [params]
   sitename = "Nextstop"
+
+[[params.javascript]]
+  link = "js/script.js"

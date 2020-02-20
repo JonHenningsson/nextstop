@@ -2,7 +2,19 @@
 
 <section id=content>
           <h1>Search here</h1>
-          <input type="text"></input>
+          <input type="text" placeholder="latitude" id="lat-input"></input>
+          <input type="text" placeholder="longitude" id="lon-input"></input>
+          <input type="button" value="Search" id="search-btn">
+
+          <div id="searchresult">
+            <ol>
+
+            </ol>
+
+
+          </div>
 </section>
+
+
 
 {{ partial "footer.html" . }}
