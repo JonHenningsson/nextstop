@@ -1,20 +1,20 @@
 const https = require('https');
 
-class TripPlanner {
+class NearbyStops {
   constructor(apikey) {
     this.apikey = apikey;
     this.nearbystops_base_url = `https://api.resrobot.se/location.nearbystops?key=${apikey}&format=json`;
   }
 
-  nearbystops = (lat, lon) => {
+  nearbystops = (lat, lon, radius, maxNo) => {
       return new Promise(
         (resolve, reject) => {
 
-          let radius = 10000
-          let maxNo = 10
+          this.radius = radius || 5000;
+          this.maxNo = maxNo || 20;
           this.lat = lat;
           this.lon = lon;
-          this.nearbystops_url = this.nearbystops_base_url + `&originCoordLat=${this.lat}&originCoordLong=${this.lon}&r=${radius}&maxNo=${maxNo}`;
+          this.nearbystops_url = this.nearbystops_base_url + `&originCoordLat=${this.lat}&originCoordLong=${this.lon}&r=${this.radius}&maxNo=${this.maxNo}`;
 
           https.get(this.nearbystops_url, (resp) => {
             let data = '';
@@ -35,6 +35,7 @@ class TripPlanner {
      );
     };
 
+
 }
 
-module.exports = TripPlanner;
+module.exports = NearbyStops;

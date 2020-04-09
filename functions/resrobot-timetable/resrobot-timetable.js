@@ -1,4 +1,4 @@
-const TimeTable2Departing = require('./resrobot-timetable2-departing');
+const TimeTable2Departing = require('./resrobot-api-timetable2-departing');
 
 exports.handler = async (event, context) => {
   try {
