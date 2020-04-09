@@ -13,4 +13,5 @@ It is built with:
 - Add support for when vehicle is stopped
 - Allow user to set stop search radius
 - Improve look & feel
+- Add captcha
 - More ..
