@@ -1,19 +1,26 @@
 {{ partial "header.html" . }}
 
 <section id=content>
-  <h1>What's the next stop?</h1>
+  <h1>Var är nästa hållplats?</h1>
   <div id="google-recaptcha">
       <div class="g-recaptcha" data-sitekey="6LeaQ-gUAAAAABKwZ_rPFT_WvYF0evK6QsIPgGfk" data-callback="verifyreCaptcha"></div>
   </div>
   <br>
-  <input type="button" value="Search" id="search-btn" disabled>
+  <input type="button" value="Sök" id="search-btn" disabled>
 
   <div id="searchresult">
+    <p></p>
     <ol>
 
     </ol>
 
 
+  </div>
+  <div id="next-stop-result">
+    <p></p>
+  </div>
+  <div id="past-stop-result">
+    <p></p>
   </div>
 </section>
 
