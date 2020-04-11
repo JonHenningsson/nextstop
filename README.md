@@ -9,9 +9,9 @@ It is built with:
 - Netlify: https://www.netlify.com/
 
 ## To-do
-- Obtain coordinates from browser
+- ~~Obtain coordinates from browser~~
 - Add support for when vehicle is stopped
 - Allow user to set stop search radius
 - Improve look & feel
-- Add captcha
+- ~~Add captcha~~
 - More ..
