@@ -8,6 +8,7 @@ $(document).ready(async function() {
   var lat_q2 = getParameterByName("lat2", window.location);
   var lon_q2 = getParameterByName("lon2", window.location);
 
+
 // FUNCTION: getParameterByName - Get query params
   function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -19,6 +20,35 @@ $(document).ready(async function() {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 // END FUNCTION: getParameterByName
+
+async function reCaptchaSuccessful(){
+  $("#search-btn").prop("disabled", false);
+  $("#google-recaptcha").hide();
+}
+
+async function verifyreCaptcha(recaptcha_response) {
+  let recaptchav2_response = grecaptcha.getResponse();
+
+  if (recaptchav2_response) {
+
+    const result = await $.ajax({
+      url: "/.netlify/functions/recaptchaV2-validate",
+      type: "GET",
+      data: {
+        "response": recaptchav2_response,
+      },
+      dataType: "json"
+    });
+
+    if (result.success == true) {
+      reCaptchaSuccessful();
+    }
+
+  }
+
+  return;
+
+}
 
 // FUNCTION: sortByDistance - Return array sorted by distance to stop
   async function sortByDistance(stops) {
@@ -168,8 +198,6 @@ $(document).ready(async function() {
     }
   }
   // END FUNCTION: findNearestStops
-
-
 
   $("#search-btn").click(async function() {
     let lat1, lon1;

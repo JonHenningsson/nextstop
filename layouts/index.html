@@ -1,16 +1,20 @@
 {{ partial "header.html" . }}
 
 <section id=content>
-          <h1>What's the next stop?</h1>
-          <input type="button" value="Search" id="search-btn">
+  <h1>What's the next stop?</h1>
+  <div id="google-recaptcha">
+      <div class="g-recaptcha" data-sitekey="6LeaQ-gUAAAAABKwZ_rPFT_WvYF0evK6QsIPgGfk" data-callback="verifyreCaptcha"></div>
+  </div>
+  <br>
+  <input type="button" value="Search" id="search-btn" disabled>
 
-          <div id="searchresult">
-            <ol>
+  <div id="searchresult">
+    <ol>
 
-            </ol>
+    </ol>
 
 
-          </div>
+  </div>
 </section>
 
 
