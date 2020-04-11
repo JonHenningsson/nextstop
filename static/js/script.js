@@ -200,6 +200,7 @@ async function verifyreCaptcha(recaptcha_response) {
   // END FUNCTION: findNearestStops
 
   $("#search-btn").click(async function() {
+    $("#searchresult ol").html("<p>Loading..</p>");
     let lat1, lon1;
 
     if (lat_q1 && lon_q1) {
@@ -212,6 +213,7 @@ async function verifyreCaptcha(recaptcha_response) {
     nearest_stops_m1_g = await findNearestStops(lat1, lon1, true, false);
     unique_nums_g = await findUniqueNums(nearest_stops_m1_g);
 
+    $("#searchresult ol").html("");
     $.each(unique_nums_g, async function(key, value){
       let transportNumber = key;
 
