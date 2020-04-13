@@ -3,10 +3,17 @@
 <section id=content>
   <h1>Var är nästa hållplats?</h1>
   <div id="google-recaptcha">
-      <div class="g-recaptcha" data-sitekey="6LeaQ-gUAAAAABKwZ_rPFT_WvYF0evK6QsIPgGfk" data-callback="verifyreCaptcha"></div>
+    <div class="g-recaptcha" data-sitekey="6LeaQ-gUAAAAABKwZ_rPFT_WvYF0evK6QsIPgGfk" data-callback="verifyreCaptcha"></div>
   </div>
-  <br>
-  <input type="button" value="Sök" id="search-btn" disabled>
+  <div id="search">
+    <br>
+    <div>
+      <label for="radius-btn">Sökradie (meter): </label>
+      <input type="text" value="5000" id="radius-input">
+    </div>
+
+    <input type="button" value="Sök" id="search-btn" disabled>
+  </div>
 
   <div id="searchresult">
     <p></p>
@@ -15,6 +22,9 @@
     </ol>
 
 
+  </div>
+  <div id="cur-stop-result">
+    <p></p>
   </div>
   <div id="next-stop-result">
     <p></p>

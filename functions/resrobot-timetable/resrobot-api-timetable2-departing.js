@@ -3,7 +3,8 @@ const https = require('https');
 class TimeTable2Departing {
   constructor(apikey) {
     this.apikey = apikey;
-    this.timetable_base_url = `https://api.resrobot.se/v2/departureBoard?key=${apikey}&format=json&products=136`;
+    this.products = 2 + 4 + 8 + 16 + 128;
+    this.timetable_base_url = `https://api.resrobot.se/v2/departureBoard?key=${apikey}&format=json&products=${this.products}`;
   }
 
   timetable = (stopid) => {

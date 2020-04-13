@@ -25,10 +25,11 @@ $(document).ready(async function() {
   async function getCoords(myCallback) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        lat = position.coords.latitude;
-        lon = position.coords.longitude;
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        let r = $("#radius-input").val();
 
-        myCallback(lat, lon);
+        myCallback(lat, lon, r);
       });
     } else {
       alert("Sorry, your browser does not support HTML5 geolocation.");
@@ -196,9 +197,9 @@ $(document).ready(async function() {
   // END FUNCTION: findUniqueNums
 
   // FUNCTION: findNearestStops - Return table of stops and departures
-  async function findNearestStops(lat, lon, getTT, sort) {
+  async function findNearestStops(lat, lon, radius, getTT, sort) {
     let stops = {};
-    let nearby_stops_res = await nearbyStops(lat, lon, false, false);
+    let nearby_stops_res = await nearbyStops(lat, lon, radius, false);
 
     if (!nearby_stops_res.StopLocation) {
       return false;
@@ -227,15 +228,13 @@ $(document).ready(async function() {
   // END FUNCTION: findNearestStops
 
   // FUNCTION: firstSearch - perform initial search and render html result
-  async function firstSearch(lat, lon) {
-    lat1 = lat1_q || lat;
-    lon1 = lon1_q || lon;
-    console.log("Coordinates:");
+  async function firstSearch(lat, lon, radius) {
+    let lat1 = lat1_q || lat;
+    let lon1 = lon1_q || lon;
+    let r = radius || 5000;
 
-    console.log(lat1);
-    console.log(lon1);
 
-    nearest_stops_m1_g = await findNearestStops(lat1, lon1, true, false);
+    nearest_stops_m1_g = await findNearestStops(lat1, lon1, r, true, false);
 
     if (nearest_stops_m1_g == false) {
       $("#searchresult p").html("Hittade ingen hållplats nära dig.");
@@ -245,7 +244,7 @@ $(document).ready(async function() {
 
     $("#searchresult ol").html("");
     $("#searchresult p").html("");
-    console.log(unique_nums_g);
+
     $.each(unique_nums_g, async function(key, value) {
       let transportNumber = key;
 
@@ -260,34 +259,66 @@ $(document).ready(async function() {
   // END FUNCTION: firstSearch
 
   // FUNCTION: secondSearch - perform second search and render html result (next stop)
-  async function secondSearch(lat, lon) {
+  async function secondSearch(lat, lon, radius) {
 
-    lat2 = lat2_q || lat;
-    lon2 = lon2_q || lon;
+    let lat2 = lat2_q || lat;
+    let lon2 = lon2_q || lon;
+    let r = radius || 5000;
 
     let nearest_stops_m2 = {};
-    nearest_stops_m2 = await findNearestStops(lat2, lon2, false, true);
+    nearest_stops_m2 = await findNearestStops(lat2, lon2, r, false, true);
 
     let compare_stops_res = await compareStops(rel_stops_g, nearest_stops_m2);
 
     let ns = [];
     let ps = [];
+    let cs;
+
 
     $.each(compare_stops_res, async function(key, value) {
       let stop_index = key;
-      if (compare_stops_res[stop_index].diff >= 0) {
+      // current stop
+      // less than 50 m away, and diff of less than 10 m
+      if (
+        (compare_stops_res[stop_index].dist < 50) &&
+        (compare_stops_res[stop_index].diff < 10) &&
+        (compare_stops_res[stop_index].diff > -10)
+      ) {
+        cs = compare_stops_res[stop_index];
+        return false;
+      }
+      // next stops
+      else if (compare_stops_res[stop_index].diff >= 0) {
         ns.push(compare_stops_res[stop_index]);
       } else {
+        // past stops
         ps.push(compare_stops_res[stop_index]);
       }
     });
 
-    let next_stop_res = "Nästa hållplats: " + ns[0].name + ". Distans: " + ns[0].dist + "m";
-    let past_stop_res = "Föregående hållplats: " + ps[0].name + ". Distans: " + ps[0].dist + "m";
+    let next_stop_res, past_stop_res, cur_stop_res;
+
+    if (cs) {
+      cur_stop_res = "Nuvarande hållplats: " + cs.name;
+    } else {
+
+      if (ns[0]) {
+        next_stop_res = "Nästa hållplats: " + ns[0].name + ". Distans: " + ns[0].dist + "m";
+      } else {
+        next_stop_res = "Kunde inte hitta nästa hållplats.";
+      }
+
+      if (ps[0]) {
+        past_stop_res = "Föregående hållplats: " + ps[0].name + ". Distans: " + ps[0].dist + "m";
+      } else {
+        past_stop_res = "Kunde inte hitta föregående hållplats.";
+      }
+    }
 
     $("#searchresult p").html("");
     $("#searchresult ol").html("");
 
+    $("#cur-stop-result p").html(cur_stop_res);
     $("#next-stop-result p").html(next_stop_res);
     $("#past-stop-result p").html(past_stop_res);
 
@@ -296,7 +327,7 @@ $(document).ready(async function() {
   // END FUNCTION: secondSearch
 
   $("#search-btn").click(async function() {
-    $("#search-btn").hide();
+    $("#search").hide();
     $("#google-recaptcha").hide();
     $("#searchresult p").html("Vänta, söker..");
     getCoords(firstSearch);
